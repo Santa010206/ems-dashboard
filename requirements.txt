@@ -1,0 +1,8 @@
+streamlit
+pandas
+openpyxl
+plotly
+scikit-learn
+numpy
+supabase
+streamlit_authenticator
