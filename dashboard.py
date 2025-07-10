@@ -38,7 +38,7 @@ def show_dashboard():
 
     with col1:
         try:
-            st.image(r'assets\xcmg-logo.png', width=250)  # Adjust size as needed
+            st.image("https://raw.githubusercontent.com/Santa010206/ems-dashboard/main/assets/xcmg-logo.png", width=250)  # Adjust size as needed
         except:
             st.warning("⚠️ Logo not found. Please upload 'logo.png' to assets folder.")
 
