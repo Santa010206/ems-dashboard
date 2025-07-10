@@ -43,14 +43,22 @@ def show_dashboard():
             st.warning("⚠️ Logo not found. Please upload 'logo.png' to assets folder.")
 
     with col2:
-        now = datetime.datetime.now()
-        st.markdown(f"""
-            <div style='text-align:right; font-size:20px; padding-top:10px;'>
-                📅 <b>{now.strftime('%A, %d %B %Y')}</b><br>
-                🕒 <span id="clock">{now.strftime('%H:%M:%S')}</span>
-            </div>
-        """, unsafe_allow_html=True)
-
+    st.markdown("""
+        <div style='text-align:right; font-size:20px; padding-top:10px;'>
+            📅 <b id="local-date"></b><br>
+            🕒 <span id="local-clock"></span>
+        </div>
+        <script>
+            function updateTime() {
+                const now = new Date();
+                document.getElementById("local-date").textContent = now.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+                document.getElementById("local-clock").textContent = now.toLocaleTimeString();
+            }
+            setInterval(updateTime, 1000);
+            updateTime();
+        </script>
+    """, unsafe_allow_html=True)
+    
         # Optional: Update clock using JavaScript (optional, not reactive on change)
         st.markdown("""
             <script>
