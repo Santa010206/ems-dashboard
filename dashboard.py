@@ -8,6 +8,9 @@ import numpy as np
 import datetime
 import streamlit as st
 from io import BytesIO
+from streamlit_autorefresh import st_autorefresh
+from streamlit_js_eval import streamlit_js_eval
+
 
 def show_dashboard():
     theme_mode = st.sidebar.radio("Choose Theme", ["Light", "Dark"])
@@ -38,29 +41,28 @@ def show_dashboard():
 
     with col1:
         try:
-            st.image("https://raw.githubusercontent.com/Santa010206/ems-dashboard/main/assets/xcmg-logo.png", width=250)  # Adjust size as needed
+            st.image(r'assets\xcmg-logo.png', width=250) # st.image("https://raw.githubusercontent.com/Santa010206/ems-dashboard/main/assets/xcmg-logo.png", width=250) # Adjust size as needed
         except:
             st.warning("⚠️ Logo not found. Please upload 'logo.png' to assets folder.")
 
     with col2:
-        now = datetime.datetime.now()
-        st.markdown(f"""
-            <div style='text-align:right; font-size:20px; padding-top:10px;'>
-                📅 <b>{now.strftime('%A, %d %B %Y')}</b><br>
-                🕒 <span id="clock">{now.strftime('%H:%M:%S')}</span>
-            </div>
-        """, unsafe_allow_html=True)
 
-        # Optional: Update clock using JavaScript (optional, not reactive on change)
-        st.markdown("""
-            <script>
-            setInterval(() => {
-                const now = new Date();
-                document.getElementById("clock").textContent =
-                    now.toLocaleTimeString();
-            }, 1000);
-            </script>
-        """, unsafe_allow_html=True)
+        # Auto-refresh the app every 1000 milliseconds (1 second)
+        st_autorefresh(interval=1000, key="clockrefresh")
+
+        # Get the user's local time and date from their browser
+        local_time = streamlit_js_eval(js_expressions='new Date().toLocaleTimeString()', key='js_time')
+        local_date = streamlit_js_eval(js_expressions='new Date().toLocaleDateString()', key='js_date')
+
+        st.markdown(
+            f"""
+            <div style='text-align:right; font-size:20px; padding-top:10px;'>
+                📅 <b>{local_date}</b><br>
+                🕒 <span>{local_time}</span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
     st.markdown("## 🏭 Industrial Energy Management System")
             
