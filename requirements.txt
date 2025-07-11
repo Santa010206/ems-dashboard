@@ -8,3 +8,5 @@ supabase
 streamlit_authenticator
 dotenv
 xlsxwriter
+streamlit-autorefresh 
+streamlit-js-eval
